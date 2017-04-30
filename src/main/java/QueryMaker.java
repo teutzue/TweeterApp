@@ -21,7 +21,7 @@ public class QueryMaker {
     }
 
     //Who are the most active Twitter users (top ten)?
-    public String mostActive(){
+    public String q4(){
         return "db.test.aggregate(\n" +
                 "      [\n" +
                 "        {\n" +
@@ -54,10 +54,17 @@ public class QueryMaker {
     public String getUserLinked(){
         return "0";
     }
+    
+    public String q2(){
+        return "db.tweets.aggregate("
+        		+ "{$match: {Text: {$regex: /@\\S+/g}}}, "
+        		+ "{$group: {_id: \"$User\", count:{$sum:1}}}, "
+        		+ "{$sort: {\"count\":-1}}, {$limit: 10})";
+    }
 
     //Who is are the most mentioned Twitter users? (Provide the top five.)
 
-    public String mostMentioned(){
+    public String q3(){
         return "db.test.aggregate([" +
                 "         {" +
                 "           $match: { " +
@@ -73,7 +80,7 @@ public class QueryMaker {
 
     //Who are the five most grumpy (most negative tweets)?
     //Gets all the ratings and dsplays them asscending (1)
-    public String mostGrumpy(){
+    public String q5a(){
         return "db.test.aggregate( [    " +
                 "{     $group: {       _id: '$user'," +
                 "       average_polarity: { $avg: '$polarity' }," +
@@ -91,7 +98,7 @@ public class QueryMaker {
 
     //Most happy?
     //Gets all the ratings and dsplays them descending (-1)
-    public String mostHappy(){
+    public String q5b(){
         return "db.test.aggregate( [" +
                 "    {     $group: {       _id: '$user'," +
                 "       average_polarity: { $avg: '$polarity' }," +

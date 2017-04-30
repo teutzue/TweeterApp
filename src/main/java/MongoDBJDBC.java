@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Scanner;
 
 
 public class MongoDBJDBC {
@@ -44,22 +45,66 @@ public class MongoDBJDBC {
             }*/
 
             //findUsersThatLink(); 5th question
-
-            System.out.println("Distinct tweeter users: " + query.q1(db));
-            System.out.println("Most active users? ");
-            executeQuery(query.mostActive());
-            System.out.println("Most grumpy?");
-            executeQuery(query.mostGrumpy());
-            System.out.println("Most happy?");
-            executeQuery((query.mostHappy()));
-            System.out.println("Most mentioned?");
-            executeQuery(query.mostMentioned());
-
-
-
+            Scanner sc = new Scanner(System.in);
+            Thread.sleep(500);
+            int input;
+            do
+            {
+            	menu();
+            	input = sc.nextInt();
+            	if(input==1)
+            	{
+            		System.out.println("Distinct tweeter users: " + query.q1(db));
+            	}
+            	else if (input==2) 
+            	{
+            		executeQuery(query.q2());
+				}
+            	else if (input==3) 
+            	{
+            		System.out.println("Most mentioned?");
+                    executeQuery(query.q3());
+				}
+            	else if (input==4) 
+            	{
+            		System.out.println("Most active users? ");
+                    executeQuery(query.q4());
+            	}
+            	else if (input==5) 
+            	{
+            		System.out.println("Most grumpy?");
+                    executeQuery(query.q5a());
+            	}
+            	else if (input==6) 
+            	{
+            		System.out.println("Most happy?");
+                    executeQuery((query.q5b()));
+            	}
+            	else if (input==7) 
+            	{
+            		break;
+            	}
+            	Thread.sleep(3000);
+            	
+            } while(true);
+            
+            mongoClient.close();
         }catch(Exception e){
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
+    }
+    private static void menu()
+    {
+    	System.out.println("---------------------------------------------------------");
+    	System.out.println("Please enter number from 1 to 7 to execute following:");
+        System.out.println("1. Number of Twitter users in database.");
+        System.out.println("2. User that links to most of Twitter users (Top 10).");
+        System.out.println("3. Most mentioned user(Top 5).");
+        System.out.println("4. Most active users (Top 10).");
+        System.out.println("5. Five most negative tweets.");
+        System.out.println("6. Five most happy tweets.");
+        System.out.println("7. Terminate application.");
+        System.out.println("---------------------------------------------------------");
     }
 
     public static void executeQuery(String q) {
