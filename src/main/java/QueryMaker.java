@@ -56,9 +56,9 @@ public class QueryMaker {
     }
     
     public String q2(){
-        return "db.tweets.aggregate("
-        		+ "{$match: {Text: {$regex: /@\\S+/g}}}, "
-        		+ "{$group: {_id: \"$User\", count:{$sum:1}}}, "
+        return "db.test.aggregate("
+        		+ "{$match: {text: {$regex: /@\\S+/g}}}, "
+        		+ "{$group: {_id: \"$user\", count:{$sum:1}}}, "
         		+ "{$sort: {\"count\":-1}}, {$limit: 10})";
     }
 
